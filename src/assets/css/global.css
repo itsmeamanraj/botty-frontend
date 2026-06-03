@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-success: var(--success);
+  --color-surface-bg: var(--app-background);
+  --color-surface-card: var(--card-bg);
+  --color-surface-text: var(--app-foreground);
+  --color-text-muted: var(--text-muted);
+
+  /* Admin Dashboard Theme Colors */
+  --color-admin-bg: var(--admin-background);
+  --color-admin-card: var(--admin-card);
+  --color-admin-primary: var(--admin-primary);
+  --color-admin-secondary: var(--admin-secondary);
+  --color-admin-success: var(--admin-success);
+  --color-admin-warning: var(--admin-warning);
+  --color-admin-danger: var(--admin-danger);
+  --color-admin-text: var(--admin-text);
+  --color-admin-text-muted: var(--admin-text-muted);
+
+  /* Fonts */
+  --font-sans: var(--font-family);
+  --font-mono: var(--font-geist-mono);
+
+  /* Font Sizes */
+  --text-h1: var(--size-h1);
+  --text-h2: var(--size-h2);
+  --text-h3: var(--size-h3);
+  --text-body: var(--size-body);
+  --text-sm-custom: var(--size-sm);
+
+  /* Custom Transitions & Radii */
+  --radius-xl-custom: var(--border-radius-xl);
+  --radius-2xl-custom: var(--border-radius-2xl);
+  --animate-gradient-glow: gradient-glow 8s ease infinite;
+}
+
+:root {
+  /* Colors */
+  --primary: #6C63FF;
+  --secondary: #94A3B8;
+  --accent: #00D4FF;
+  --success: #10B981;
+  --app-background: #0B1020;
+  --card-bg: rgba(21, 27, 48, 0.6);
+  --app-foreground: #FFFFFF;
+  --text-muted: #94A3B8;
+
+  /* Scoped Admin Palette */
+  --admin-background: #0B1020;
+  --admin-card: #111827;
+  --admin-primary: #6C63FF;
+  --admin-secondary: #00D4FF;
+  --admin-success: #10B981;
+  --admin-warning: #F59E0B;
+  --admin-danger: #EF4444;
+  --admin-text: #FFFFFF;
+  --admin-text-muted: #A1A1AA;
+
+  /* Typography */
+  --font-family: 'Geist', sans-serif;
+  --size-h1: 3.75rem;     /* 60px */
+  --size-h2: 2.25rem;     /* 36px */
+  --size-h3: 1.5rem;      /* 24px */
+  --size-body: 1rem;      /* 16px */
+  --size-sm: 0.875rem;    /* 14px */
+
+  /* Spacing */
+  --border-radius-xl: 12px;
+  --border-radius-2xl: 20px;
+}
+
+body {
+  background-color: var(--app-background);
+  color: var(--app-foreground);
+  font-family: var(--font-family);
+  overflow-x: hidden;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-glow {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), 0 0 20px 0 rgba(108, 99, 255, 0.15);
+}
+
+/* Gradient glow background animation */
+@keyframes gradient-glow {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+}
