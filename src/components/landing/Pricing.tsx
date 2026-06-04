@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Check, HelpCircle } from "lucide-react";
+import { Check } from "lucide-react";
+import { Card, Button } from "@heroui/react";
 
 export default function Pricing() {
   const tiers = [
@@ -74,51 +75,61 @@ export default function Pricing() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
-              className={`p-8 rounded-3xl border flex flex-col justify-between relative ${
-                tier.popular
-                  ? "border-primary bg-[#121832] shadow-xl shadow-primary/10"
-                  : "border-white/5 bg-[#151B30]/30"
-              }`}
+              className="flex flex-col h-full"
             >
-              {/* Popular Badge */}
-              {tier.popular && (
-                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-primary to-accent text-white text-xs font-bold shadow-md shadow-primary/20 uppercase tracking-wider">
-                  Most Popular
-                </span>
-              )}
-
-              <div>
-                <h4 className="text-lg font-bold text-white mb-2">{tier.name}</h4>
-                <p className="text-xs text-text-muted leading-relaxed mb-6">{tier.desc}</p>
-                
-                <div className="flex items-baseline gap-1 mb-8">
-                  <span className="text-4xl font-extrabold text-white">{tier.price}</span>
-                  <span className="text-xs text-text-muted font-medium">{tier.period}</span>
-                </div>
-
-                <hr className="border-white/5 mb-8" />
-
-                <ul className="flex flex-col gap-4 mb-8">
-                  {tier.features.map((f, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-xs text-white/90 leading-relaxed">
-                      <span className="w-5 h-5 rounded-full bg-success/15 border border-success/20 flex items-center justify-center flex-shrink-0 text-success">
-                        <Check className="w-3.5 h-3.5" />
-                      </span>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <button
-                className={`w-full py-3.5 rounded-xl font-bold text-xs tracking-wider uppercase transition-all duration-200 cursor-pointer ${
+              <Card
+                className={`p-8 border flex flex-col justify-between relative bg-transparent overflow-visible flex-grow ${
                   tier.popular
-                    ? "bg-gradient-to-r from-primary to-accent text-white shadow-lg shadow-primary/20 hover:opacity-95"
-                    : "bg-white/5 hover:bg-white/10 text-white border border-white/10"
+                    ? "border-primary bg-[#121832] shadow-xl shadow-primary/10"
+                    : "border-white/5 bg-[#151B30]/30"
                 }`}
+                style={{ borderRadius: "24px" }}
               >
-                {tier.cta}
-              </button>
+                {/* Popular Badge */}
+                {tier.popular && (
+                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-primary to-accent text-white text-xs font-bold shadow-md shadow-primary/20 uppercase tracking-wider z-20">
+                    Most Popular
+                  </span>
+                )}
+
+                <Card.Header className="flex flex-col items-start p-0 mb-6 bg-transparent">
+                  <h4 className="text-lg font-bold text-white mb-2">{tier.name}</h4>
+                  <p className="text-xs text-text-muted leading-relaxed">{tier.desc}</p>
+                </Card.Header>
+
+                <Card.Content className="p-0 flex-grow bg-transparent">
+                  <div className="flex items-baseline gap-1 mb-8">
+                    <span className="text-4xl font-extrabold text-white">{tier.price}</span>
+                    <span className="text-xs text-text-muted font-medium">{tier.period}</span>
+                  </div>
+
+                  <hr className="border-white/5 mb-8" />
+
+                  <ul className="flex flex-col gap-4 mb-8">
+                    {tier.features.map((f, idx) => (
+                      <li key={idx} className="flex items-start gap-3 text-xs text-white/90 leading-relaxed">
+                        <span className="w-5 h-5 rounded-full bg-success/15 border border-success/20 flex items-center justify-center flex-shrink-0 text-success">
+                          <Check className="w-3.5 h-3.5" />
+                        </span>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </Card.Content>
+
+                <Card.Footer className="p-0 bg-transparent mt-auto">
+                  <Button
+                    fullWidth
+                    className={`py-6 rounded-xl font-bold text-xs tracking-wider uppercase transition-all duration-200 cursor-pointer ${
+                      tier.popular
+                        ? "bg-gradient-to-r from-primary to-accent text-white shadow-lg shadow-primary/20 hover:opacity-95"
+                        : "bg-white/5 hover:bg-white/10 text-white border border-white/10"
+                    }`}
+                  >
+                    {tier.cta}
+                  </Button>
+                </Card.Footer>
+              </Card>
             </motion.div>
           ))}
         </div>
