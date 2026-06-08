@@ -13,8 +13,7 @@ import {
   BarChart3,
   Bell,
   Settings,
-  User,
-  LogOut
+  User
 } from "lucide-react";
 import Link from "next/link";
 
@@ -24,73 +23,94 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
-  const menuItems = [
-    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { id: "businesses", label: "Business Management", icon: Building2 },
-    { id: "whitelabel", label: "White Label Partners", icon: Globe },
-    { id: "users", label: "Users", icon: Users },
-    { id: "subscriptions", label: "Subscriptions", icon: CreditCard },
-    { id: "billing", label: "Billing & Finance", icon: Receipt },
-    { id: "whatsapp", label: "WhatsApp Management", icon: Phone },
-    { id: "ai", label: "AI Control Center", icon: Cpu },
-    { id: "kb", label: "Knowledge Base", icon: Database },
-    { id: "analytics", label: "Analytics", icon: BarChart3 },
-    { id: "notifications", label: "Notifications", icon: Bell },
-    { id: "logs", label: "Audit Logs", icon: Shield }, // lucide Shield icon
-    { id: "settings", label: "System Settings", icon: Settings },
-    { id: "profile", label: "Profile", icon: User }
+  const categories = [
+    {
+      title: "Core Operations",
+      items: [
+        { id: "dashboard", label: "Overview", icon: LayoutDashboard },
+        { id: "analytics", label: "Analytics", icon: BarChart3 },
+        { id: "logs", label: "Audit Logs", icon: Shield }
+      ]
+    },
+    {
+      title: "Management",
+      items: [
+        { id: "businesses", label: "Tenants", icon: Building2 },
+        { id: "whitelabel", label: "White Label", icon: Globe },
+        { id: "users", label: "Users", icon: Users }
+      ]
+    },
+    {
+      title: "AI & WhatsApp",
+      items: [
+        { id: "whatsapp", label: "WhatsApp Node", icon: Phone },
+        { id: "ai", label: "AI Center", icon: Cpu },
+        { id: "kb", label: "Knowledge Base", icon: Database }
+      ]
+    },
+    {
+      title: "Billing & Settings",
+      items: [
+        { id: "subscriptions", label: "Subscriptions", icon: CreditCard },
+        { id: "billing", label: "Finance & Invoices", icon: Receipt },
+        { id: "notifications", label: "Notifications", icon: Bell },
+        { id: "settings", label: "System Settings", icon: Settings },
+        { id: "profile", label: "Profile", icon: User }
+      ]
+    }
   ];
 
   return (
-    <aside className="w-[280px] bg-admin-card border-r border-white/5 flex flex-col justify-between p-6 h-screen sticky top-0 flex-shrink-0 z-30">
-      <div>
+    <aside className="w-[280px] bg-[#070B16] border-r border-white/[0.04] flex flex-col justify-between p-6 h-screen sticky top-0 flex-shrink-0 z-30 select-none">
+      <div className="flex flex-col h-full overflow-hidden">
         {/* Logo Section */}
-        <Link href="/" className="flex items-center gap-2.5 mb-8 group">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-admin-primary to-admin-secondary flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-admin-primary/20">
+        <Link href="/" className="flex items-center gap-3 mb-8 group shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-admin-primary to-admin-secondary flex items-center justify-center text-white font-extrabold text-lg shadow-lg shadow-admin-primary/10 group-hover:scale-[1.02] transition-transform duration-200">
             R
           </div>
           <div>
-            <span className="font-extrabold text-base tracking-tight text-white block">
+            <span className="font-extrabold text-sm tracking-tight text-white block">
               ReplyDesk<span className="text-admin-secondary">.ai</span>
             </span>
-            <span className="text-[10px] text-admin-text-muted font-semibold tracking-wider uppercase block">
+            <span className="text-[9px] text-admin-text-muted font-bold tracking-wider uppercase block mt-0.5">
               Super Admin
             </span>
           </div>
         </Link>
 
-        {/* Menu Items */}
-        <nav className="flex flex-col gap-1 overflow-y-auto max-h-[calc(100vh-200px)] custom-scrollbar">
-          {menuItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => setActiveTab(item.id)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all duration-200 text-left cursor-pointer ${
-                  isActive
-                    ? "bg-admin-primary text-white shadow-lg shadow-admin-primary/20"
-                    : "text-admin-text-muted hover:text-white hover:bg-white/5"
-                }`}
-              >
-                <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-admin-text-muted"}`} />
-                {item.label}
-              </button>
-            );
-          })}
+        {/* Categories & Items */}
+        <nav className="flex-1 flex flex-col gap-6 overflow-y-auto pr-1 -mr-2 custom-scrollbar">
+          {categories.map((cat, catIdx) => (
+            <div key={catIdx} className="flex flex-col gap-1.5">
+              <span className="text-[10px] font-bold text-admin-text-muted/60 uppercase tracking-widest px-3.5 mb-1 block">
+                {cat.title}
+              </span>
+              <div className="flex flex-col gap-0.5">
+                {cat.items.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = activeTab === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => setActiveTab(item.id)}
+                      className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 text-left cursor-pointer w-full relative group ${
+                        isActive
+                          ? "bg-white/[0.06] text-white shadow-inner"
+                          : "text-[#94A3B8] hover:text-white hover:bg-white/[0.02]"
+                      }`}
+                    >
+                      {isActive && (
+                        <span className="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-md bg-gradient-to-b from-admin-primary to-admin-secondary" />
+                      )}
+                      <Icon className={`w-4 h-4 transition-colors ${isActive ? "text-admin-secondary" : "text-[#64748B] group-hover:text-white"}`} />
+                      {item.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
-      </div>
-
-      {/* Logout */}
-      <div className="pt-4 border-t border-white/5">
-        <Link
-          href="/login"
-          className="flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold text-admin-danger hover:bg-admin-danger/10 transition-colors w-full"
-        >
-          <LogOut className="w-4 h-4" />
-          Logout
-        </Link>
       </div>
     </aside>
   );

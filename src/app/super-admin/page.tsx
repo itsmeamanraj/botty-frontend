@@ -64,7 +64,7 @@ export default function SuperAdminDashboard() {
       {/* Main Container */}
       <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
         {/* Top Header */}
-        <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} setActiveTab={setActiveTab} />
 
         {/* Main Content Area */}
         <main className="p-8 flex-1">
