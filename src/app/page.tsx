@@ -15,7 +15,7 @@ import Footer from "@/components/landing/Footer";
 
 export default function Home() {
   return (
-    <div className="bg-surface-bg text-white font-sans min-h-screen relative selection:bg-primary selection:text-white">
+    <div className="bg-surface-bg text-surface-text font-sans min-h-screen relative selection:bg-primary selection:text-white">
       <Header />
       <Hero />
       <Trust />

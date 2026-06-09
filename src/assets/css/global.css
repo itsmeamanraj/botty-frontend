@@ -44,14 +44,14 @@
 
 :root {
   /* Colors */
-  --primary: #6C63FF;
-  --secondary: #94A3B8;
-  --accent: #00D4FF;
+  --primary: #5F43F1;
+  --secondary: #64748B;
+  --accent: #2563EB;
   --success: #10B981;
-  --app-background: #0B1020;
-  --card-bg: rgba(21, 27, 48, 0.6);
-  --app-foreground: #FFFFFF;
-  --text-muted: #94A3B8;
+  --app-background: #FFFFFF;
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --app-foreground: #0F172A;
+  --text-muted: #64748B;
 
   /* Scoped Admin Palette */
   --admin-background: #0B1020;
@@ -86,18 +86,39 @@ body {
 
 /* Glassmorphism Classes */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .glass-panel-glow {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), 0 0 20px 0 rgba(108, 99, 255, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.04), 0 0 20px 0 rgba(95, 67, 241, 0.04);
+}
+
+/* 3D Transform Utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* Grid Overlay Utility */
+.grid-bg-overlay {
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 3rem 3rem;
 }
 
 /* Gradient glow background animation */
@@ -106,9 +127,9 @@ body {
     transform: translate(0px, 0px) scale(1);
   }
   33% {
-    transform: translate(30px, -50px) scale(1.1);
+    transform: translate(20px, -30px) scale(1.05);
   }
   66% {
-    transform: translate(-20px, 20px) scale(0.95);
+    transform: translate(-15px, 15px) scale(0.98);
   }
 }

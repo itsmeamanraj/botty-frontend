@@ -56,12 +56,12 @@ export default function Pricing() {
   ];
 
   return (
-    <section id="pricing" className="py-24 relative z-10 overflow-hidden">
+    <section id="pricing" className="py-24 relative z-10 overflow-hidden bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-20">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">Subscription Plans</h2>
-          <h3 className="text-3xl sm:text-5xl font-extrabold text-white">Fair, Growth-Friendly Pricing</h3>
-          <p className="text-text-muted mt-4 max-w-xl mx-auto">
+          <h2 className="text-xs font-bold uppercase tracking-widest text-primary mb-3">Subscription Plans</h2>
+          <h3 className="text-3xl sm:text-5xl font-extrabold text-slate-900">Fair, Growth-Friendly Pricing</h3>
+          <p className="text-slate-500 mt-4 max-w-xl mx-auto">
             Choose the package that matches your operational needs. All plans include a 14-day free trial.
           </p>
         </div>
@@ -80,35 +80,35 @@ export default function Pricing() {
               <Card
                 className={`p-8 border flex flex-col justify-between relative bg-transparent overflow-visible flex-grow ${
                   tier.popular
-                    ? "border-primary bg-[#121832] shadow-xl shadow-primary/10"
-                    : "border-white/5 bg-[#151B30]/30"
+                    ? "border-primary bg-indigo-50/20 shadow-xl shadow-indigo-600/5"
+                    : "border-slate-200/80 bg-white shadow-sm"
                 }`}
                 style={{ borderRadius: "24px" }}
               >
                 {/* Popular Badge */}
                 {tier.popular && (
-                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-primary to-accent text-white text-xs font-bold shadow-md shadow-primary/20 uppercase tracking-wider z-20">
+                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-slate-900 text-white text-[10px] font-bold shadow-md uppercase tracking-wider z-20">
                     Most Popular
                   </span>
                 )}
 
                 <Card.Header className="flex flex-col items-start p-0 mb-6 bg-transparent">
-                  <h4 className="text-lg font-bold text-white mb-2">{tier.name}</h4>
-                  <p className="text-xs text-text-muted leading-relaxed">{tier.desc}</p>
+                  <h4 className="text-lg font-bold text-slate-900 mb-2">{tier.name}</h4>
+                  <p className="text-xs text-slate-500 leading-relaxed">{tier.desc}</p>
                 </Card.Header>
 
                 <Card.Content className="p-0 flex-grow bg-transparent">
                   <div className="flex items-baseline gap-1 mb-8">
-                    <span className="text-4xl font-extrabold text-white">{tier.price}</span>
-                    <span className="text-xs text-text-muted font-medium">{tier.period}</span>
+                    <span className="text-4xl font-extrabold text-slate-900">{tier.price}</span>
+                    <span className="text-xs text-slate-400 font-medium">{tier.period}</span>
                   </div>
 
-                  <hr className="border-white/5 mb-8" />
+                  <hr className="border-slate-100 mb-8" />
 
                   <ul className="flex flex-col gap-4 mb-8">
                     {tier.features.map((f, idx) => (
-                      <li key={idx} className="flex items-start gap-3 text-xs text-white/90 leading-relaxed">
-                        <span className="w-5 h-5 rounded-full bg-success/15 border border-success/20 flex items-center justify-center flex-shrink-0 text-success">
+                      <li key={idx} className="flex items-start gap-3 text-xs text-slate-700 leading-relaxed">
+                        <span className="w-5 h-5 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center flex-shrink-0 text-emerald-600">
                           <Check className="w-3.5 h-3.5" />
                         </span>
                         {f}
@@ -122,8 +122,8 @@ export default function Pricing() {
                     fullWidth
                     className={`py-6 rounded-xl font-bold text-xs tracking-wider uppercase transition-all duration-200 cursor-pointer ${
                       tier.popular
-                        ? "bg-gradient-to-r from-primary to-accent text-white shadow-lg shadow-primary/20 hover:opacity-95"
-                        : "bg-white/5 hover:bg-white/10 text-white border border-white/10"
+                        ? "bg-primary text-white shadow-md shadow-primary/20 hover:bg-primary/95"
+                        : "bg-white hover:bg-slate-50 text-slate-700 border border-slate-200"
                     }`}
                   >
                     {tier.cta}

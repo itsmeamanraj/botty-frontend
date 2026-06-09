@@ -63,12 +63,12 @@ export default function Features() {
   ];
 
   return (
-    <section className="py-24 relative z-10">
+    <section className="py-24 relative z-10 bg-slate-50/30 border-y border-slate-100">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-20">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-accent mb-3">Capabilities</h2>
-          <h3 className="text-3xl sm:text-5xl font-extrabold text-white">Features Built for Growth</h3>
-          <p className="text-text-muted mt-4 max-w-xl mx-auto">
+          <h2 className="text-xs font-bold uppercase tracking-widest text-primary mb-3">Capabilities</h2>
+          <h3 className="text-3xl sm:text-5xl font-extrabold text-slate-900">Features Built for Growth</h3>
+          <p className="text-slate-500 mt-4 max-w-xl mx-auto">
             Scale your marketing, customer support, and sales automation with our integrated enterprise features.
           </p>
         </div>
@@ -84,20 +84,20 @@ export default function Features() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.05 }}
                 whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                className="group p-8 rounded-2xl border border-white/5 bg-[#151B30]/40 hover:bg-[#151B30]/80 hover:border-primary/30 transition-all duration-300 relative overflow-hidden"
+                className="group p-8 rounded-2xl border border-slate-200/80 bg-white hover:border-primary/30 shadow-sm hover:shadow-md transition-all duration-300 relative overflow-hidden"
               >
                 {/* Glow overlay */}
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-primary/10 to-accent/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-primary/5 to-accent/5 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 
-                <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:text-accent group-hover:border-accent/40 transition-colors duration-300 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-primary/5 border border-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 mb-6">
                   <Icon className="w-6 h-6" />
                 </div>
                 
-                <h4 className="text-lg font-bold text-white mb-3 group-hover:text-accent transition-colors duration-300">
+                <h4 className="text-lg font-bold text-slate-900 mb-3 group-hover:text-primary transition-colors duration-300">
                   {item.title}
                 </h4>
                 
-                <p className="text-sm text-text-muted leading-relaxed">
+                <p className="text-sm text-slate-500 leading-relaxed">
                   {item.desc}
                 </p>
               </motion.div>

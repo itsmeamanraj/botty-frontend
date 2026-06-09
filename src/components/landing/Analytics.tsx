@@ -32,12 +32,12 @@ export default function Analytics() {
       value: 24,
       suffix: "/7",
       icon: Clock,
-      color: "text-purple-400",
+      color: "text-indigo-600",
     },
   ];
 
   return (
-    <section className="py-24 relative z-10">
+    <section className="py-24 relative z-10 bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, idx) => {
@@ -49,9 +49,9 @@ export default function Analytics() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="p-8 rounded-2xl border border-white/5 bg-[#151B30]/30 hover:bg-[#151B30]/50 transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden"
+                className="p-8 rounded-2xl border border-slate-200/80 bg-white shadow-sm hover:shadow-md transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden"
               >
-                <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-5 text-white/70">
+                <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-5 text-slate-700">
                   <Icon className="w-5 h-5" />
                 </div>
                 
@@ -61,7 +61,7 @@ export default function Analytics() {
                   <span>{stat.suffix}</span>
                 </div>
 
-                <div className="text-sm font-semibold text-white/80">{stat.label}</div>
+                <div className="text-sm font-semibold text-slate-500">{stat.label}</div>
               </motion.div>
             );
           })}

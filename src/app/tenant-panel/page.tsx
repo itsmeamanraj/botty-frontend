@@ -9,23 +9,23 @@ import { AnimatePresence, motion } from "framer-motion";
 import { BellRing, X } from "lucide-react";
 
 // Modules imports
-import Dashboard from "@/modules/dashboard/Dashboard";
-import Conversations from "@/modules/conversations/Conversations";
-import Leads from "@/modules/leads/Leads";
-import Contacts from "@/modules/contacts/Contacts";
-import KnowledgeBase from "@/modules/knowledge-base/KnowledgeBase";
-import AITraining from "@/modules/ai-training/AITraining";
-import Prompts from "@/modules/prompts/Prompts";
-import WhatsApp from "@/modules/whatsapp/WhatsApp";
-import Widget from "@/modules/widget/Widget";
-import Analytics from "@/modules/analytics/Analytics";
-import Team from "@/modules/team/Team";
-import Roles from "@/modules/roles/Roles";
-import Subscription from "@/modules/subscription/Subscription";
-import Billing from "@/modules/billing/Billing";
-import Notifications from "@/modules/notifications/Notifications";
-import Settings from "@/modules/settings/Settings";
-import WhiteLabel from "@/modules/white-label/WhiteLabel";
+import Dashboard from "./modules/dashboard/Dashboard";
+import Conversations from "./modules/conversations/Conversations";
+import Leads from "./modules/leads/Leads";
+import Contacts from "./modules/contacts/Contacts";
+import KnowledgeBase from "./modules/knowledge-base/KnowledgeBase";
+import AITraining from "./modules/ai-training/AITraining";
+import Prompts from "./modules/prompts/Prompts";
+import WhatsApp from "./modules/whatsapp/WhatsApp";
+import Widget from "./modules/widget/Widget";
+import Analytics from "./modules/analytics/Analytics";
+import Team from "./modules/team/Team";
+import Roles from "./modules/roles/Roles";
+import Subscription from "./modules/subscription/Subscription";
+import Billing from "./modules/billing/Billing";
+import Notifications from "./modules/notifications/Notifications";
+import Settings from "./modules/settings/Settings";
+import WhiteLabel from "./modules/white-label/WhiteLabel";
 
 export default function TenantPanelPage() {
   const { hasPermission } = useRBAC();

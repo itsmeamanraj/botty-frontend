@@ -14,9 +14,9 @@ export default function Trust() {
   ];
 
   return (
-    <section className="py-12 border-y border-white/5 bg-[#0F1426]/30 relative z-10">
+    <section className="py-12 border-y border-slate-100 bg-slate-50/50 relative z-10">
       <div className="max-w-7xl mx-auto px-6">
-        <h3 className="text-center text-xs font-semibold uppercase tracking-widest text-text-muted mb-8">
+        <h3 className="text-center text-xs font-semibold uppercase tracking-widest text-slate-400 mb-8">
           Trusted by Growing Businesses across Industries
         </h3>
         
@@ -30,9 +30,9 @@ export default function Trust() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="flex items-center gap-2.5 text-white/40 hover:text-white/80 transition-all duration-300 group cursor-pointer"
+                className="flex items-center gap-2.5 text-slate-400 hover:text-slate-800 transition-all duration-300 group cursor-pointer"
               >
-                <Icon className="w-5 h-5 group-hover:text-accent transition-colors duration-300" />
+                <Icon className="w-5 h-5 group-hover:text-primary transition-colors duration-300" />
                 <span className="font-semibold text-sm tracking-wide">{ind.name}</span>
               </motion.div>
             );
