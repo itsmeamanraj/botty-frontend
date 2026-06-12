@@ -5,6 +5,8 @@ import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import { TenantRole, useRBAC } from "@/hooks/useRBAC";
 import { TenantFeature, useFeatures } from "@/hooks/useFeatures";
+import { useAuth } from "@/providers/AuthProvider";
+import { apiRoleToTenantRole } from "@/lib/role-map";
 import { AnimatePresence, motion } from "framer-motion";
 import { BellRing, X } from "lucide-react";
 
@@ -28,11 +30,14 @@ import Settings from "./modules/settings/Settings";
 import WhiteLabel from "./modules/white-label/WhiteLabel";
 
 export default function TenantPanelPage() {
+  const { user } = useAuth();
   const { hasPermission } = useRBAC();
   const { hasFeature } = useFeatures();
 
-  // Interactive Demo States
-  const [role, setRole] = useState<TenantRole>("BUSINESS_OWNER");
+  // Interactive Demo States — default role from API session
+  const [role, setRole] = useState<TenantRole>(() =>
+    apiRoleToTenantRole(user?.role ?? null),
+  );
   const [enabledFeatures, setEnabledFeatures] = useState<Record<TenantFeature, boolean>>({
     crm: true,
     analytics: true,
@@ -54,6 +59,12 @@ export default function TenantPanelPage() {
     setToastMessage(msg);
     setToastId(prev => prev + 1);
   };
+
+  useEffect(() => {
+    if (user?.role) {
+      setRole(apiRoleToTenantRole(user.role));
+    }
+  }, [user?.role]);
 
   // Auto-dismiss toast
   useEffect(() => {

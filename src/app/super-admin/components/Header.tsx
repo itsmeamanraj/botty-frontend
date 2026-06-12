@@ -1,7 +1,9 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Search, Bell, LogOut, Settings, User } from "lucide-react";
 import { Dropdown, Separator } from "@heroui/react";
+import { useAuth } from "@/providers/AuthProvider";
 
 interface HeaderProps {
   searchQuery: string;
@@ -10,6 +12,22 @@ interface HeaderProps {
 }
 
 export default function Header({ searchQuery, setSearchQuery, setActiveTab }: HeaderProps) {
+  const router = useRouter();
+  const { user, signOut } = useAuth();
+
+  const displayName = user?.name ?? user?.email ?? "Admin";
+  const initials = displayName
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push("/login");
+  };
+
   return (
     <header className="sticky top-0 bg-[#0B1020]/75 backdrop-blur-md border-b border-white/[0.04] px-8 py-4 flex items-center justify-between z-20 select-none">
       {/* Global Search */}
@@ -45,10 +63,10 @@ export default function Header({ searchQuery, setSearchQuery, setActiveTab }: He
           <Dropdown.Trigger className="bg-transparent border-none p-0 outline-none focus:outline-none flex items-center select-none cursor-pointer group">
             <div className="flex items-center gap-3 pl-4 border-l border-white/[0.08]">
               <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-admin-primary to-admin-secondary flex items-center justify-center text-xs font-bold text-white shadow-lg ring-1 ring-white/10 group-hover:ring-admin-secondary/40 transition-all">
-                SA
+                {initials}
               </div>
               <div className="hidden md:block text-left">
-                <div className="text-xs font-semibold text-white leading-none group-hover:text-admin-secondary transition-colors">Aman Raj</div>
+                <div className="text-xs font-semibold text-white leading-none group-hover:text-admin-secondary transition-colors">{displayName}</div>
                 <span className="text-[9px] text-[#64748B] font-bold uppercase tracking-wider block mt-0.5">Super Admin</span>
               </div>
             </div>
@@ -74,11 +92,11 @@ export default function Header({ searchQuery, setSearchQuery, setActiveTab }: He
               </Dropdown.Item>
               <Separator className="my-1 border-b border-white/[0.04] block" />
               <Dropdown.Item 
-                href="/login"
+                onPress={handleSignOut}
                 className="flex items-center gap-3 px-3.5 py-2.5 text-xs font-semibold text-admin-danger hover:bg-admin-danger/10 rounded-xl outline-none cursor-pointer transition-colors"
               >
                 <LogOut className="w-4 h-4" />
-                Logout
+                Sign out
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown.Popover>

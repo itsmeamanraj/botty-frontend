@@ -1,4 +1,4 @@
-import { MessageSquare } from "lucide-react";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -54,7 +54,7 @@ export default function Footer() {
             <h5 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Company</h5>
             <ul className="flex flex-col gap-2 text-xs text-slate-500">
               <li><a href="#about" className="hover:text-slate-900 transition-colors">About Us</a></li>
-              <li><a href="#contact" className="hover:text-slate-900 transition-colors">Contact</a></li>
+              <li><Link href="/enquiry" className="hover:text-slate-900 transition-colors">Request a Demo</Link></li>
               <li><a href="#careers" className="hover:text-slate-900 transition-colors">Careers</a></li>
             </ul>
           </div>

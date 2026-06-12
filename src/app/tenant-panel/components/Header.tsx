@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Search, Bell, LogOut, Settings, User, Eye, Sliders, ChevronDown } from "lucide-react";
 import { Dropdown, Separator } from "@heroui/react";
 import { TenantRole, ROLE_LABELS } from "@/hooks/useRBAC";
 import { TenantFeature, FEATURE_LABELS } from "@/hooks/useFeatures";
+import { useAuth } from "@/providers/AuthProvider";
 
 interface HeaderProps {
   searchQuery: string;
@@ -27,7 +29,22 @@ export default function Header({
   activeTab,
   setActiveTab
 }: HeaderProps) {
+  const router = useRouter();
+  const { user, signOut } = useAuth();
   const [isDemoConsoleOpen, setIsDemoConsoleOpen] = useState(false);
+
+  const displayName = user?.name ?? user?.email ?? "User";
+  const initials = displayName
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push("/login");
+  };
 
   const rolesList: TenantRole[] = [
     "WHITE_LABEL_OWNER",
@@ -80,11 +97,11 @@ export default function Header({
           <Dropdown.Trigger className="bg-transparent border-none p-0 outline-none focus:outline-none flex items-center select-none cursor-pointer group">
             <div className="flex items-center gap-3 pl-4 border-l border-[#E5E7EB]">
               <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#4F46E5] to-[#06B6D4] flex items-center justify-center text-xs font-bold text-white shadow-md shadow-[#4F46E5]/10 group-hover:scale-102 transition-transform">
-                JD
+                {initials}
               </div>
               <div className="hidden md:block text-left">
                 <div className="text-xs font-bold text-[#111827] leading-none flex items-center gap-1 group-hover:text-[#4F46E5] transition-colors">
-                  John Doe
+                  {displayName}
                   <ChevronDown className="w-3 h-3 text-[#9CA3AF]" />
                 </div>
                 <span className="text-[9px] text-[#6B7280] font-bold uppercase tracking-wider block mt-0.5">
@@ -114,11 +131,11 @@ export default function Header({
               </Dropdown.Item>
               <Separator className="my-1 border-b border-[#F3F4F6] block" />
               <Dropdown.Item 
-                href="/login"
+                onPress={handleSignOut}
                 className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-[#EF4444] hover:bg-[#FEF2F2] rounded-xl outline-none cursor-pointer transition-colors"
               >
                 <LogOut className="w-4 h-4" />
-                Logout
+                Sign out
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown.Popover>
