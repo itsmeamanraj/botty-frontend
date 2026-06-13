@@ -1,19 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Building2 } from "lucide-react";
 import { apiFetch } from "@/lib/api";
+import { fetchIndustries, type IndustryOption } from "@/lib/industries";
 import { useAuth } from "@/providers/AuthProvider";
 import { resolveRedirectPath } from "@/lib/redirect";
+
+const selectClassName =
+  "w-full bg-white/5 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl py-3 px-4 text-sm text-white outline-none transition-all";
 
 export default function SetupBusinessPage() {
   const router = useRouter();
   const { refreshMe } = useAuth();
   const [businessName, setBusinessName] = useState("");
+  const [industry, setIndustry] = useState("");
   const [slug, setSlug] = useState("");
+  const [industries, setIndustries] = useState<IndustryOption[]>([]);
+  const [industriesError, setIndustriesError] = useState("");
+  const [isLoadingIndustries, setIsLoadingIndustries] = useState(true);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    fetchIndustries()
+      .then(setIndustries)
+      .catch((err) => {
+        setIndustriesError(
+          err instanceof Error ? err.message : "Failed to load industries",
+        );
+      })
+      .finally(() => setIsLoadingIndustries(false));
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,6 +43,7 @@ export default function SetupBusinessPage() {
         method: "POST",
         body: JSON.stringify({
           businessName,
+          industry,
           ...(slug.trim() ? { slug: slug.trim() } : {}),
         }),
       });
@@ -63,8 +83,37 @@ export default function SetupBusinessPage() {
               value={businessName}
               onChange={(e) => setBusinessName(e.target.value)}
               placeholder="Acme Coaching"
-              className="w-full bg-white/5 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl py-3 px-4 text-sm text-white placeholder-white/30 outline-none transition-all"
+              className={selectClassName}
             />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-text-muted">
+              Industry
+            </label>
+            <select
+              required
+              value={industry}
+              onChange={(e) => setIndustry(e.target.value)}
+              disabled={isLoadingIndustries || !!industriesError}
+              className={`${selectClassName} disabled:opacity-60`}
+            >
+              <option value="" disabled className="bg-[#0F1426]">
+                {isLoadingIndustries ? "Loading industries…" : "Select industry"}
+              </option>
+              {industries.map((item) => (
+                <option
+                  key={item.value}
+                  value={item.value}
+                  className="bg-[#0F1426]"
+                >
+                  {item.label}
+                </option>
+              ))}
+            </select>
+            {industriesError && (
+              <p className="text-[10px] text-red-400">{industriesError}</p>
+            )}
           </div>
 
           <div className="flex flex-col gap-1.5">
@@ -77,7 +126,7 @@ export default function SetupBusinessPage() {
               onChange={(e) => setSlug(e.target.value)}
               placeholder="acme-coaching"
               pattern="^[a-z0-9]+(?:-[a-z0-9]+)*$"
-              className="w-full bg-white/5 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl py-3 px-4 text-sm text-white placeholder-white/30 outline-none transition-all"
+              className={selectClassName}
             />
             <span className="text-[10px] text-text-muted">
               Lowercase letters, numbers, and hyphens only
@@ -90,7 +139,7 @@ export default function SetupBusinessPage() {
 
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || isLoadingIndustries || !!industriesError}
             className="w-full py-3.5 rounded-xl bg-gradient-to-r from-primary to-accent text-white font-bold text-sm shadow-lg disabled:opacity-60 cursor-pointer mt-2"
           >
             {isSubmitting ? "Creating…" : "Create Business"}

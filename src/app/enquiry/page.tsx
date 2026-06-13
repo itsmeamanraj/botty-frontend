@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
@@ -12,16 +12,38 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { apiFetch } from "@/lib/api";
+import { fetchIndustries, type IndustryOption } from "@/lib/industries";
+
+const inputClassName =
+  "w-full bg-white/5 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl py-3 pl-10 pr-4 text-sm text-white placeholder-white/30 outline-none transition-all";
+
+const selectClassName =
+  "w-full bg-white/5 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl py-3 pl-10 pr-4 text-sm text-white outline-none transition-all disabled:opacity-60";
 
 export default function EnquiryPage() {
   const [businessName, setBusinessName] = useState("");
+  const [industry, setIndustry] = useState("");
   const [contactName, setContactName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
+  const [industries, setIndustries] = useState<IndustryOption[]>([]);
+  const [industriesError, setIndustriesError] = useState("");
+  const [isLoadingIndustries, setIsLoadingIndustries] = useState(true);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    fetchIndustries()
+      .then(setIndustries)
+      .catch((err) => {
+        setIndustriesError(
+          err instanceof Error ? err.message : "Failed to load industries",
+        );
+      })
+      .finally(() => setIsLoadingIndustries(false));
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,6 +54,7 @@ export default function EnquiryPage() {
         method: "POST",
         body: JSON.stringify({
           businessName,
+          industry,
           contactName,
           email,
           ...(phone.trim() ? { phone: phone.trim() } : {}),
@@ -117,9 +140,43 @@ export default function EnquiryPage() {
                         value={businessName}
                         onChange={(e) => setBusinessName(e.target.value)}
                         placeholder="Acme Coaching"
-                        className="w-full bg-white/5 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl py-3 pl-10 pr-4 text-sm text-white placeholder-white/30 outline-none transition-all"
+                        className={inputClassName}
                       />
                     </div>
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-semibold text-text-muted">
+                      Industry
+                    </label>
+                    <div className="relative flex items-center">
+                      <Briefcase className="absolute left-3 w-4 h-4 text-text-muted pointer-events-none" />
+                      <select
+                        required
+                        value={industry}
+                        onChange={(e) => setIndustry(e.target.value)}
+                        disabled={isLoadingIndustries || !!industriesError}
+                        className={selectClassName}
+                      >
+                        <option value="" disabled className="bg-[#0F1426]">
+                          {isLoadingIndustries
+                            ? "Loading industries…"
+                            : "Select industry"}
+                        </option>
+                        {industries.map((item) => (
+                          <option
+                            key={item.value}
+                            value={item.value}
+                            className="bg-[#0F1426]"
+                          >
+                            {item.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    {industriesError && (
+                      <p className="text-[10px] text-red-400">{industriesError}</p>
+                    )}
                   </div>
 
                   <div className="flex flex-col gap-1.5">
@@ -191,7 +248,7 @@ export default function EnquiryPage() {
 
                   <button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || isLoadingIndustries || !!industriesError}
                     className="w-full py-3.5 rounded-xl bg-gradient-to-r from-primary to-accent text-white font-bold text-sm shadow-lg disabled:opacity-60 cursor-pointer mt-2"
                   >
                     {isSubmitting ? "Submitting…" : "Submit Enquiry"}

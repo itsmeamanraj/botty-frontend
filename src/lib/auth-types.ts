@@ -20,6 +20,7 @@ export interface AuthTenant {
   name: string;
   slug: string;
   status: "pending" | "active" | "suspended";
+  industry: string | null;
   onboardingCompletedAt: string | null;
 }
 
