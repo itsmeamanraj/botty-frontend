@@ -23,6 +23,13 @@ interface AuthContextValue {
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (name: string, email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
+  requestPasswordReset: (email: string) => Promise<void>;
+  resetPassword: (token: string, newPassword: string) => Promise<void>;
+  resendVerificationEmail: (email: string) => Promise<void>;
+}
+
+function getOrigin(): string {
+  return typeof window !== "undefined" ? window.location.origin : "";
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -92,6 +99,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     applyMe(null);
   }, [applyMe]);
 
+  const requestPasswordReset = useCallback(async (email: string) => {
+    const result = await authClient.requestPasswordReset({
+      email,
+      redirectTo: `${getOrigin()}/reset-password`,
+    });
+    if (result.error) {
+      throw new Error(result.error.message ?? "Could not send reset email");
+    }
+  }, []);
+
+  const resetPassword = useCallback(async (token: string, newPassword: string) => {
+    const result = await authClient.resetPassword({
+      newPassword,
+      token,
+    });
+    if (result.error) {
+      throw new Error(result.error.message ?? "Could not reset password");
+    }
+  }, []);
+
+  const resendVerificationEmail = useCallback(async (email: string) => {
+    const result = await authClient.sendVerificationEmail({
+      email,
+      callbackURL: `${getOrigin()}/auth/verified`,
+    });
+    if (result.error) {
+      throw new Error(result.error.message ?? "Could not resend verification email");
+    }
+  }, []);
+
   const value = useMemo(
     () => ({
       user,
@@ -103,6 +140,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       signIn,
       signUp,
       signOut,
+      requestPasswordReset,
+      resetPassword,
+      resendVerificationEmail,
     }),
     [
       user,
@@ -114,6 +154,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       signIn,
       signUp,
       signOut,
+      requestPasswordReset,
+      resetPassword,
+      resendVerificationEmail,
     ],
   );
 

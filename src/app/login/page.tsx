@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Mail, Lock, User, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
@@ -12,7 +12,7 @@ type AuthView = "login" | "signup";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { signIn, signUp, refreshMe } = useAuth();
+  const { signIn, signUp, refreshMe, resendVerificationEmail } = useAuth();
 
   const [view, setView] = useState<AuthView>("login");
   const [email, setEmail] = useState("");
@@ -21,6 +21,28 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [signupSuccess, setSignupSuccess] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
+  const [resendSent, setResendSent] = useState(false);
+
+  useEffect(() => {
+    if (resendCooldown <= 0) return;
+    const timer = window.setTimeout(() => setResendCooldown((s) => s - 1), 1000);
+    return () => window.clearTimeout(timer);
+  }, [resendCooldown]);
+
+  const handleResendVerification = async () => {
+    setError("");
+    setIsSubmitting(true);
+    try {
+      await resendVerificationEmail(email);
+      setResendSent(true);
+      setResendCooldown(60);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not resend email");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,6 +122,26 @@ export default function LoginPage() {
                   <span className="text-white font-semibold">{email}</span>.
                   Click the link to verify and continue to business setup.
                 </p>
+                {resendSent && (
+                  <p className="text-xs text-success font-semibold mt-4">
+                    Verification email sent again
+                  </p>
+                )}
+                {error && (
+                  <p className="text-xs text-red-400 font-semibold mt-4">{error}</p>
+                )}
+                <button
+                  type="button"
+                  onClick={handleResendVerification}
+                  disabled={isSubmitting || resendCooldown > 0}
+                  className="mt-4 w-full py-2.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-xs font-semibold transition-colors cursor-pointer disabled:opacity-50"
+                >
+                  {isSubmitting
+                    ? "Sending…"
+                    : resendCooldown > 0
+                      ? `Resend in ${resendCooldown}s`
+                      : "Resend verification email"}
+                </button>
                 <button
                   type="button"
                   onClick={() => {
@@ -147,9 +189,17 @@ export default function LoginPage() {
                   </div>
 
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-semibold text-text-muted">
-                      Password
-                    </label>
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-semibold text-text-muted">
+                        Password
+                      </label>
+                      <Link
+                        href="/forgot-password"
+                        className="text-xs font-semibold text-accent hover:text-accent/80 transition-colors"
+                      >
+                        Forgot password?
+                      </Link>
+                    </div>
                     <div className="relative flex items-center">
                       <Lock className="absolute left-3 w-4 h-4 text-text-muted" />
                       <input
