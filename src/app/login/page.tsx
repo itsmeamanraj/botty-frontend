@@ -98,7 +98,7 @@ export default function LoginPage() {
                 <p className="text-sm text-text-muted max-w-xs mx-auto leading-relaxed">
                   We sent a verification link to{" "}
                   <span className="text-white font-semibold">{email}</span>.
-                  Click the link, then sign in.
+                  Click the link to verify and continue to business setup.
                 </p>
                 <button
                   type="button"
@@ -108,7 +108,7 @@ export default function LoginPage() {
                   }}
                   className="mt-6 text-xs font-semibold text-accent hover:text-accent/80 transition-colors cursor-pointer"
                 >
-                  Back to sign in
+                  Already verified? Sign in
                 </button>
               </motion.div>
             ) : view === "login" ? (

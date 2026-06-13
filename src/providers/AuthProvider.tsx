@@ -74,7 +74,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signUp = useCallback(
     async (name: string, email: string, password: string) => {
-      const result = await authClient.signUp.email({ name, email, password });
+      const result = await authClient.signUp.email({
+        name,
+        email,
+        password,
+        callbackURL: `${window.location.origin}/auth/verified`,
+      });
       if (result.error) {
         throw new Error(result.error.message ?? "Sign up failed");
       }

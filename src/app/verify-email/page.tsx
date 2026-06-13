@@ -19,17 +19,17 @@ export default function VerifyEmailPage() {
           <span className="text-white font-semibold">
             {user?.email ?? "your email"}
           </span>
-          . Click the link in that email to continue.
+          . Click the link in that email to verify and continue setup.
         </p>
         <p className="text-xs text-text-muted mb-6">
-          In development, check the API server logs for the verification URL.
+          Did not get the email? Check spam, or sign up again to resend.
         </p>
         <Link
           href="/login"
           className="inline-flex items-center gap-2 text-xs font-semibold text-accent hover:text-accent/80 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to sign in
+          Already verified? Sign in
         </Link>
       </div>
     </main>
